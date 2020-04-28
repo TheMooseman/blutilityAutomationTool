@@ -6,15 +6,23 @@
 #include "Object.h"
 #include "..\Public\blutilityAutomationFunctionLibrary.h"
 
+/* FLOATS **************************************************************************************/
 float blutilityAutomationFunctionLibrary::getFloat(UObject * object, FName propertyName)
 {
+	//Get property name from FName in BP
 	UProperty* Property = object->GetClass()->FindPropertyByName(propertyName);
 	UFloatProperty* floatProp = Cast<UFloatProperty>(Property);
+	
+	//If property exists
 	if(floatProp != nullptr)
 	{
+		//Retreive the value from the UFloatProperty given the variables FName
 		void* ValuePtr = floatProp->ContainerPtrToValuePtr<void>(object);
+
+		//Return the UFloatProperty to the BP
 		return floatProp->GetPropertyValue(ValuePtr);
 	}
+	//Property does not exist
 	else
 	{
 		return 0.0f;
@@ -25,19 +33,27 @@ float blutilityAutomationFunctionLibrary::getFloat(UObject * object, FName prope
 
 void blutilityAutomationFunctionLibrary::setFloat(UObject * object, FName propertyName, float PropertyValue)
 {
+	//Get property name from FName in BP
 	UProperty* Property = object->GetClass()->FindPropertyByName(propertyName);
-
+	
+	
+	//If the value is a float
 	if (UNumericProperty *NumericProperty = Cast<UNumericProperty>(Property))
 	{
 		if (UFloatProperty *FloatProperty = Cast<UFloatProperty>(NumericProperty))
 		{
+			//Set value of UPROPERTY located under the FName
 			void* ValuePtr = FloatProperty->ContainerPtrToValuePtr<void>(object);
 			FloatProperty->SetFloatingPointPropertyValue(ValuePtr, PropertyValue);
 			object->PostEditChange();
 		}
 	}
 }
+/***********************************************************************************************/
 
+
+
+/* INTS ****************************************************************************************/
 int blutilityAutomationFunctionLibrary::getInt(UObject * object, FName propertyName)
 {
 	UProperty* Property = object->GetClass()->FindPropertyByName(propertyName);
@@ -67,7 +83,10 @@ void blutilityAutomationFunctionLibrary::setInt(UObject * object, FName property
 		}
 	}
 }
+/***********************************************************************************************/
 
+
+/* BOOLS ***************************************************************************************/
 bool blutilityAutomationFunctionLibrary::getBool(UObject * object, FName propertyName)
 {
 	UProperty* Property = object->GetClass()->FindPropertyByName(propertyName);
@@ -97,7 +116,9 @@ void blutilityAutomationFunctionLibrary::setBool(UObject * object, FName propert
 	}
 
 }
+/***********************************************************************************************/
 
+/* BYTES ***************************************************************************************/
 uint8 blutilityAutomationFunctionLibrary::getByte(UObject * object, FName propertyName)
 {
 	UProperty* Property = object->GetClass()->FindPropertyByName(propertyName);
@@ -127,7 +148,9 @@ void blutilityAutomationFunctionLibrary::setByte(UObject * object, FName propert
 		}
 	}
 }
+/***********************************************************************************************/
 
+/* INT64 ***************************************************************************************/
 int64 blutilityAutomationFunctionLibrary::getInt64(UObject * object, FName propertyName)
 {
 	UProperty* Property = object->GetClass()->FindPropertyByName(propertyName);
@@ -157,7 +180,9 @@ void blutilityAutomationFunctionLibrary::setInt64(UObject * object, FName proper
 		}
 	}
 }
+/***********************************************************************************************/
 
+/* FName ***************************************************************************************/
 FName blutilityAutomationFunctionLibrary::getName(UObject * object, FName propertyName)
 {
 	UProperty* Property = object->GetClass()->FindPropertyByName(propertyName);
@@ -185,6 +210,9 @@ void blutilityAutomationFunctionLibrary::setName(UObject * object, FName propert
 		object->PostEditChange();
 	}
 }
+/***********************************************************************************************/
+
+/* FString **********************************************************************************************/
 
 FString blutilityAutomationFunctionLibrary::getString(UObject * object, FName propertyName)
 {
@@ -215,6 +243,8 @@ void blutilityAutomationFunctionLibrary::setString(UObject * object, FName prope
 	}
 }
 
+
+/* FVector **********************************************************************************************/
 FVector blutilityAutomationFunctionLibrary::getVector(UObject * object, FName propertyName)
 {
 	UProperty* Property = object->GetClass()->FindPropertyByName(propertyName);
@@ -226,10 +256,13 @@ FVector blutilityAutomationFunctionLibrary::getVector(UObject * object, FName pr
 		if (UStructProperty* StructProp = Cast<UStructProperty>(vectorProp))
 		{
 			UScriptStruct* ScriptStruct = StructProp->Struct;
+
+			//Get values of each dimension
 			UProperty* xProp = ScriptStruct->FindPropertyByName("X");
 			UProperty* yProp = ScriptStruct->FindPropertyByName("Y");
 			UProperty* zProp = ScriptStruct->FindPropertyByName("Z");
 			
+			//If dimensions are valid
 			if (UFloatProperty* xFloatProp = Cast<UFloatProperty>(xProp))
 			{
 				if (UFloatProperty* yFloatProp = Cast<UFloatProperty>(yProp))
@@ -313,6 +346,8 @@ void blutilityAutomationFunctionLibrary::setVector(UObject * object, FName prope
 	}
 }
 
+
+/* FTransform **********************************************************************************************/
 FTransform blutilityAutomationFunctionLibrary::getTransform(UObject * object, FName propertyName)
 {
 	UProperty* Property = object->GetClass()->FindPropertyByName(propertyName);
@@ -352,6 +387,7 @@ void blutilityAutomationFunctionLibrary::setTransform(UObject * object, FName pr
 	}
 }
 
+/* FRotator **********************************************************************************************/
 FRotator blutilityAutomationFunctionLibrary::getRotator(UObject * object, FName propertyName)
 {
 	UProperty* Property = object->GetClass()->FindPropertyByName(propertyName);
@@ -449,6 +485,9 @@ void blutilityAutomationFunctionLibrary::setRotator(UObject * object, FName prop
 		}
 	}
 }
+
+
+/* UObject **********************************************************************************************/
 
 UObject * blutilityAutomationFunctionLibrary::getObject(UObject * object, FName propertyName)
 {

@@ -18,6 +18,8 @@ class BORON_API blutilityAutomationFunctionLibrary : public UBlueprintFunctionLi
 
 public:
 
+
+	//Functions to get and set UPROPERTY variables hidden from blueprints for selected assets
 	UFUNCTION(BlueprintPure)
 	static float getFloat(UObject* object, FName propertyName);
 
